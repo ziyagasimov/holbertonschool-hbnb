@@ -1,0 +1,58 @@
+classDiagram
+    class User {
+        + UUID4 userId
+        + String firstName
+        + String lastName
+        + String email
+        + String password
+        + DateTime createdAt
+        + DateTime updatedAt
+        + register()
+        + authenticate()
+        + updateProfile()
+        + deleteAccount()
+    }
+
+    class Place {
+        + UUID4 placeId
+        + String name
+        + String description
+        + String address
+        + List<Amenity> amenities
+        + DateTime createdAt
+        + DateTime updatedAt
+        + addPlace()
+        + updatePlace()
+        + removePlace()
+        + getAvailablePlaces()
+    }
+
+    class Review {
+        + UUID4 reviewId
+        + UUID4 userId
+        + UUID4 placeId
+        + int rating
+        + String comment
+        + DateTime createdAt
+        + addReview()
+        + updateReview()
+        + deleteReview()
+        + getReviewsByPlace()
+    }
+
+    class Amenity {
+        + UUID4 amenityId
+        + String name
+        + String description
+        + addAmenity()
+        + updateAmenity()
+        + removeAmenity()
+    }
+
+    %% Relationships
+    User "1" --> "*" Review : Writes
+    User "1" --> "*" Place : Books
+    Place "1" --> "*" Review : Receives
+    Place "1" --> "*" Amenity : Has
+    Amenity "*" --> "*" Place : BelongsTo
+    Review "*" --> "1" Place : IsFor

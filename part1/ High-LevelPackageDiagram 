@@ -1,0 +1,32 @@
+classDiagram
+    class PresentationLayer {
+        <<Interface>>
+        + ServiceAPI
+        + Controller
+        + DTOs
+    }
+    
+    class BusinessLogicLayer {
+        + User
+        + Place
+        + Review
+        + Amenity
+        + Booking
+        <<Interface>>
+        + FacadeAPI
+    }
+    
+    class PersistenceLayer {
+        + UserRepository
+        + PlaceRepository
+        + ReviewRepository
+        + AmenityRepository
+        + Database
+    }
+    
+    % Communication Relationships
+    PresentationLayer --> BusinessLogicLayer : Uses FacadeAPI
+    BusinessLogicLayer --> PersistenceLayer : Interacts through Repositories
+
+    %% Facade Pattern
+    BusinessLogicLayer --> BusinessLogicLayer : FacadeAPI\n(Unified interface)

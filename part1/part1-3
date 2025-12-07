@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant Client
+    participant API as UserAPI (Presentation)
+    participant Facade as UserFacade (Business Logic)
+    participant UserModel as UserModel
+    participant Repo as UserRepository (Persistence)
+    participant DB as Database
+
+    Client->>API: POST /users/register (user data)
+    API->>Facade: registerUser(data)
+    Facade->>UserModel: validateData(data)
+    UserModel-->>Facade: validationOK
+
+    Facade->>UserModel: hashPassword()
+    UserModel-->>Facade: hashedPassword
+
+    Facade->>Repo: saveUser(UserModel)
+    Repo->>DB: INSERT INTO users(...)
+    DB-->>Repo: success
+    Repo-->>Facade: userCreated
+    Facade-->>API: successResponse(userId)
+    API-->>Client: 201 Created (User Registered)
